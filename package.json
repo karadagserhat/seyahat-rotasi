@@ -1,0 +1,25 @@
+{
+  "name": "city-app",
+  "version": "1.0.0",
+  "description": "Seyahat rotası ",
+  "default": "index.html",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "targets": {
+    "main": false
+  },
+  "scripts": {
+    "start": "parcel index.html --no-cache",
+    "build": "parcel build index.html --no-cache"
+  },
+  "author": "Serhat Karadağ",
+  "license": "ISC",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.2.1",
+    "parcel": "^2.2.1",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "regenerator-runtime": "^0.13.7"
+  }
+}
