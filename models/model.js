@@ -110,7 +110,15 @@ export const mapLocation = function () {
 
   const points = [];
   points.push([state.location.coordinates[1], state.location.coordinates[0]]);
-  L.marker([state.location.coordinates[1], state.location.coordinates[0]]).addTo(map).openPopup();
+
+  L.marker([state.location.coordinates[1], state.location.coordinates[0]])
+    .addTo(map)
+    .bindPopup(state.location.name, {
+      className: 'custom-popup',
+      autoClose: false,
+      closeOnClick: false,
+    })
+    .openPopup();
 
   const bounds = L.latLngBounds(points).pad(0.1);
   map.fitBounds(bounds);
