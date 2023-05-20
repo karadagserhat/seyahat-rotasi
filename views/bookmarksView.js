@@ -4,7 +4,7 @@ import previewView from './previewView';
 class BookmarksView extends View {
   _parentElement = document.querySelector('.bookmarks__list');
   _errorMessage =
-    'Henüz herhangi bir yeri favorilere eklemedin. Arama sonuçlarından sonra aşağıda göreceğin yer işaretleri ikonuna tıklayarak favorilere ekleyebilirsin.';
+    'Henüz herhangi bir yeri favorilere eklemedin. Arama sonuçlarından sonra yer işaretleri ikonuna tıklayarak favorilere ekleyebilirsin.';
   _message = '';
 
   addHandlerRender(handler) {
