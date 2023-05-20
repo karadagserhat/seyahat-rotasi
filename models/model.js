@@ -38,7 +38,7 @@ export const loadLocation = async function (id) {
 
 export const loadSearchResults = async function (query) {
   try {
-    query = query.toLocaleLowerCase('tr-TR');
+    query = query.trim().toLocaleLowerCase('tr-TR');
 
     const data = await getJSON(`${API_URL}?cityName=${query}`);
 
