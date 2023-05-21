@@ -60,7 +60,7 @@ body {
   grid-template-columns: 1fr 2fr;
   grid-template-areas:
     'head head'
-    'list location';
+    'list tour';
 
   @media only screen and (max-width: $bp-large) {
     max-width: 100%;

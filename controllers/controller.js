@@ -1,5 +1,5 @@
 import * as model from '../models/model';
-import locationView from '../views/locationView';
+import tourView from '../views/tourView';
 import searchView from '../views/searchView';
 import resultsView from '../views/resultsView';
 import paginationView from '../views/paginationView';
@@ -8,13 +8,13 @@ import bookmarksView from '../views/bookmarksView';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-const controlLocations = async function () {
+const controlTours = async function () {
   try {
     const id = window.location.hash.slice(1);
 
     if (!id) return;
 
-    locationView.renderSpinner();
+    tourView.renderSpinner();
 
     // 0) Update results view to mark selected search result
     resultsView.update(model.getSearchResultPage());
@@ -22,15 +22,15 @@ const controlLocations = async function () {
     // 1) Updating bookmarks view
     bookmarksView.update(model.state.bookmarks);
 
-    // 2) Loading location
-    await model.loadLocation(id);
+    // 2) Loading tour
+    await model.loadTour(id);
 
-    // 3) Rendering location
-    locationView.render(model.state.location);
+    // 3) Rendering tour
+    tourView.render(model.state.tour);
 
-    model.mapLocation();
+    model.mapTour();
   } catch (error) {
-    locationView.renderError();
+    tourView.renderError();
   }
 };
 
@@ -69,11 +69,11 @@ const controlPagination = function (goToPage) {
 
 const controlAddBookmark = function () {
   // 1) Add / Remove bookmark
-  if (!model.state.location.bookmarked) model.addBookmark(model.state.location);
-  else model.deleteBookmark(model.state.location.id);
+  if (!model.state.tour.bookmarked) model.addBookmark(model.state.tour);
+  else model.deleteBookmark(model.state.tour.id);
 
-  // 2) Update location view
-  locationView.update(model.state.location);
+  // 2) Update tour view
+  tourView.update(model.state.tour);
 
   // 3) Render bookmarks
   bookmarksView.render(model.state.bookmarks);
@@ -83,7 +83,7 @@ const controlAddBookmark = function () {
     container._leaflet_id = null;
   }
 
-  model.mapLocation();
+  model.mapTour();
 };
 
 const controlBookmarks = function () {
@@ -92,8 +92,8 @@ const controlBookmarks = function () {
 
 const init = function () {
   bookmarksView.addHandlerRender(controlBookmarks);
-  locationView.addHandlerRender(controlLocations);
-  locationView.addHandlerAddBookmark(controlAddBookmark);
+  tourView.addHandlerRender(controlTours);
+  tourView.addHandlerAddBookmark(controlAddBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
 };

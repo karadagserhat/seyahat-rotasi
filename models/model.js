@@ -2,7 +2,7 @@ import { API_URL, RES_PER_PAGE } from '../config';
 import { getJSON } from '../helpers/getJSON';
 
 export const state = {
-  location: {},
+  tour: {},
   search: {
     results: [],
     page: 1,
@@ -11,25 +11,25 @@ export const state = {
   bookmarks: [],
 };
 
-export const loadLocation = async function (id) {
+export const loadTour = async function (id) {
   try {
     const data = await getJSON(`${API_URL}${id}`);
 
-    const { location } = data.data;
+    const { tour } = data.data;
 
-    state.location = {
-      id: location._id,
-      address: location.address,
-      cityName: location.cityName,
-      coordinates: location.coordinates,
-      detailsUrl: location.details_url,
-      description: location.locDescription,
-      name: location.name,
-      image: location.images[0],
+    state.tour = {
+      id: tour._id,
+      address: tour.address,
+      cityName: tour.cityName,
+      coordinates: tour.coordinates,
+      detailsUrl: tour.details_url,
+      description: tour.locDescription,
+      name: tour.name,
+      image: tour.images[0],
     };
 
-    if (state.bookmarks.some((bookmark) => bookmark.id === id)) state.location.bookmarked = true;
-    else state.location.bookmarked = false;
+    if (state.bookmarks.some((bookmark) => bookmark.id === id)) state.tour.bookmarked = true;
+    else state.tour.bookmarked = false;
   } catch (error) {
     // console.error(`${error} 🧨🧨🧨`);
     throw error;
@@ -42,12 +42,12 @@ export const loadSearchResults = async function (query) {
 
     const data = await getJSON(`${API_URL}?cityName=${query}`);
 
-    state.search.results = data.data.location.map((location) => {
+    state.search.results = data.data.tour.map((tour) => {
       return {
-        id: location._id,
-        cityName: location.cityName,
-        name: location.name,
-        image: location.images[0],
+        id: tour._id,
+        cityName: tour.cityName,
+        name: tour.name,
+        image: tour.images[0],
       };
     });
   } catch (error) {
@@ -69,12 +69,12 @@ const persistBookmarks = function () {
   localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
 };
 
-export const addBookmark = function (location) {
+export const addBookmark = function (tour) {
   // Add bookmark
-  state.bookmarks.push(location);
+  state.bookmarks.push(tour);
 
-  // Mark current location as bookmarked
-  if (location.id === state.location.id) state.location.bookmarked = true;
+  // Mark current tour as bookmarked
+  if (tour.id === state.tour.id) state.tour.bookmarked = true;
 
   persistBookmarks();
 };
@@ -84,8 +84,8 @@ export const deleteBookmark = function (id) {
   const index = state.bookmarks.findIndex((el) => el.id === id);
   state.bookmarks.splice(index, 1);
 
-  // Mark current location as NOT bookmarked
-  if (id === state.location.id) state.location.bookmarked = false;
+  // Mark current tour as NOT bookmarked
+  if (id === state.tour.id) state.tour.bookmarked = false;
 
   persistBookmarks();
 };
@@ -98,7 +98,7 @@ export const deleteBookmark = function (id) {
 //   }
 // }
 
-export const mapLocation = function () {
+export const mapTour = function () {
   const map = L.map('map', { dragging: false });
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -109,11 +109,11 @@ export const mapLocation = function () {
   }).addTo(map);
 
   const points = [];
-  points.push([state.location.coordinates[1], state.location.coordinates[0]]);
+  points.push([state.tour.coordinates[1], state.tour.coordinates[0]]);
 
-  L.marker([state.location.coordinates[1], state.location.coordinates[0]])
+  L.marker([state.tour.coordinates[1], state.tour.coordinates[0]])
     .addTo(map)
-    .bindPopup(state.location.name, {
+    .bindPopup(state.tour.name, {
       className: 'custom-popup',
       autoClose: false,
       closeOnClick: false,
